@@ -301,6 +301,18 @@ describe('selectors', () => {
         expect(wrapper.find('[type="foo bar"]')).to.have.lengthOf(1);
       });
 
+      it('attribute values within a list', () => {
+        const wrapper = renderMethod(
+          <div>
+            <div type="foo" />
+            <div type="bar" />
+            <div type="foobar" />
+            <div type="foo bar" />
+          </div>,
+        );
+        expect(wrapper.find('[type~="bar"]')).to.have.lengthOf(2);
+      });
+
       it('dots in attribute values', () => {
         const wrapper = renderMethod(
           <div>

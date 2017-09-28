@@ -35,6 +35,14 @@ function propsOfNode(node) {
     .reduce((acc, [key, value]) => Object.assign(acc, { [key]: value }), {});
 }
 
+function propListContains(nodePropValue, propValue) {
+  const whitespace = /\s/;
+  const validPropValue = propValue.indexOf(whitespace) === -1 && propValue !== '';
+  const found = nodePropValue.split(whitespace).indexOf(propValue) > -1;
+
+  return validPropValue && found;
+}
+
 export function typeOfNode(node) {
   return node ? node.type : null;
 }
@@ -219,7 +227,7 @@ export function AND(fns) {
   return x => fnsReversed.every(fn => fn(x));
 }
 
-export function nodeHasProperty(node, propKey, propValue) {
+export function nodeHasProperty(node, propKey, propValue, propOperator) {
   const nodeProps = propsOfNode(node);
   const descriptor = Object.getOwnPropertyDescriptor(nodeProps, propKey);
   if (descriptor && descriptor.get) {
@@ -232,7 +240,12 @@ export function nodeHasProperty(node, propKey, propValue) {
   }
 
   if (typeof propValue !== 'undefined') {
-    return is(nodePropValue, propValue);
+    switch (propOperator) {
+      case '~=':
+        return propListContains(nodePropValue, propValue);
+      default:
+        return is(nodePropValue, propValue);
+    }
   }
 
   return Object.prototype.hasOwnProperty.call(nodeProps, propKey);

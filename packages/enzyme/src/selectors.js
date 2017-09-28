@@ -97,7 +97,7 @@ function nodeMatchesToken(node, token) {
      * @example '[data-foo=foo]' matches <div data-foo="foo" />
      */
     case ATTRIBUTE_VALUE:
-      return nodeHasProperty(node, token.name, token.value);
+      return nodeHasProperty(node, token.name, token.value, token.operator);
     case PSEUDO_ELEMENT:
     case PSEUDO_CLASS:
       throw new Error('Enzyme::Selector does not support psuedo-element or psuedo-class selectors.');
