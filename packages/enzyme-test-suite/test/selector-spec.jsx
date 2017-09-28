@@ -313,6 +313,17 @@ describe('selectors', () => {
         expect(wrapper.find('[type~="bar"]')).to.have.lengthOf(2);
       });
 
+      it('attribute values beginning with', () => {
+        const wrapper = renderMethod(
+          <div>
+            <div type="foo" />
+            <div type="foobar" />
+            <div type="foo-bar" />
+          </div>,
+        );
+        expect(wrapper.find('[type|="foo"]')).to.have.lengthOf(2);
+      });
+
       it('dots in attribute values', () => {
         const wrapper = renderMethod(
           <div>

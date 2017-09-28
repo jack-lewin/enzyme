@@ -243,6 +243,8 @@ export function nodeHasProperty(node, propKey, propValue, propOperator) {
     switch (propOperator) {
       case '~=':
         return propListContains(nodePropValue, propValue);
+      case '|=':
+        return is(nodePropValue, propValue) || nodePropValue.indexOf(`${propValue}-`) === 0;
       default:
         return is(nodePropValue, propValue);
     }
